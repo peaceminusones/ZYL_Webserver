@@ -1,14 +1,9 @@
-//
-// Created by marvinle on 2019/2/26 9:42 AM.
-//
-
 #include "ThreadPool.h"
 #include <iostream>
 #include <assert.h>
 #include <sys/prctl.h>
 
-ThreadPool::ThreadPool(int thread_s, int max_queue_s) : thread_size(thread_s), max_queue_size(max_queue_s),
-                                                        condition_(mutex_)
+ThreadPool::ThreadPool(int thread_s, int max_queue_s) : thread_size(thread_s), max_queue_size(max_queue_s)
 {
     // MAX_THREAD_SIZE: 最大线程数
     if (thread_s <= 0 || thread_s > MAX_THREAD_SIZE)
@@ -23,7 +18,7 @@ ThreadPool::ThreadPool(int thread_s, int max_queue_s) : thread_size(thread_s), m
     }
 
     // 分配空间
-    _threads.resize(thread_size);
+    m_threads.reserve(thread_size);
 }
 
 ThreadPool::~ThreadPool()
@@ -35,12 +30,12 @@ ThreadPool::~ThreadPool()
 // 开启线程池
 void ThreadPool::start()
 {
-    assert(_threads.empty());
+    assert(m_threads.empty());
     shutdown_ = 0;
 
     for (int i = 0; i < thread_size; i++)
     {
-        _threads.push_back(std::thread(&ThreadPool::worker, this));
+        m_threads.push_back(std::thread(&ThreadPool::worker, this));
     }
 }
 
@@ -48,30 +43,30 @@ void ThreadPool::start()
 void ThreadPool::shutdown(bool graceful)
 {
     {
-        MutexLockGuard guard(this->mutex_);
+        std::unique_lock<std::mutex> lock(m_mutex);
         if (shutdown_)
         {
             std::cout << "has shutdown" << std::endl;
         }
 
         shutdown_ = graceful ? graceful_mode : immediate_mode;
-        condition_.notifyAll();
+        m_cond.notify_all();
     }
 
-    for (int i = 0; i < _threads.size(); i++)
+    for (int i = 0; i < m_threads.size(); i++)
     {
-        if (!_threads[i].joinable())
+        if (!m_threads[i].joinable())
         {
             std::cout << "pthread_join error" << std::endl;
         }
 
-        _threads[i].join();
+        m_threads[i].join();
     }
 }
 
 // 添加任务函数
-// 添加一个任务到线程池，arg: 产生一个新的任务 fun: 任务函数
-bool ThreadPool::append(std::shared_ptr<void> arg, std::function<void(std::shared_ptr<void>)> fun)
+// 添加一个任务到线程池
+bool ThreadPool::append(const ThreadTask &task)
 {
     if (shutdown_)
     {
@@ -79,15 +74,15 @@ bool ThreadPool::append(std::shared_ptr<void> arg, std::function<void(std::share
         return false;
     }
 
-    if (_threads.empty())
+    if (m_threads.empty())
     {
-        fun(arg);
+        task.process(task.arg);
         return false;
     }
     else
     {
         // 线程池被多个线程共享，操作前需要加锁
-        MutexLockGuard guard(this->mutex_);
+        std::unique_lock<std::mutex> lock(m_mutex);
         // 判断任务队列是否满了，满了则添加失败
         if (isFull())
         {
@@ -96,18 +91,11 @@ bool ThreadPool::append(std::shared_ptr<void> arg, std::function<void(std::share
             return false;
         }
 
-        // 产生一个新任务对象
-        ThreadTask threadTask;
-        // 任务参数为arg
-        threadTask.arg = arg;
-        // 任务函数为fun
-        threadTask.process = fun;
-
         // 把任务添加到任务队列中
-        request_queue.push_back(threadTask);
+        m_request_queue.push_back(task);
 
         // 唤醒线程池中等待任务的线程
-        condition_.notify();
+        m_cond.notify_all();
 
         return true;
     }
@@ -131,25 +119,25 @@ void *ThreadPool::worker(void *args)
 
 void ThreadPool::run()
 {
-    while (true)
+    while (!shutdown_)
     {
         ThreadTask requestTask;
         {
-            MutexLockGuard guard(this->mutex_);
+            std::unique_lock<std::mutex> lock(m_mutex);
             // 无任务 且未shutdown 则循环等待
-            while (request_queue.empty() && !shutdown_)
+            while (m_request_queue.empty())
             {
-                condition_.wait();
+                m_cond.wait(lock);
             }
 
-            if ((shutdown_ == immediate_mode) || (shutdown_ == graceful_mode && request_queue.empty()))
+            if ((shutdown_ == immediate_mode) || (shutdown_ == graceful_mode && m_request_queue.empty()))
             {
                 break;
             }
 
             // FIFO
-            requestTask = request_queue.front();
-            request_queue.pop_front();
+            requestTask = m_request_queue.front();
+            m_request_queue.pop_front();
         }
         requestTask.process(requestTask.arg);
     }
@@ -157,5 +145,5 @@ void ThreadPool::run()
 
 bool ThreadPool::isFull()
 {
-    return max_queue_size > 0 && request_queue.size() > max_queue_size;
+    return max_queue_size > 0 && m_request_queue.size() > max_queue_size;
 }

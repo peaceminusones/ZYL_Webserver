@@ -22,10 +22,9 @@ set(CMAKE_CXX_FLAGS_DEBUG "-O3 -g")
 SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -g")
 
 set(SOURCE_FILES
-        http/HttpRequest.cpp
-        http/HttpData.cpp
-        http/HttpParse.cpp
         http/HttpResponse.cpp
+        http/HttpRequest.cpp
+        http/HttpParse.cpp
         socket/Socket.cpp
         threadpool/ThreadPool.cpp
         Util/Timer.cpp

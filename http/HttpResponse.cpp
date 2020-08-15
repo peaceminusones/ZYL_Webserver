@@ -1,6 +1,7 @@
-//
-// Created by marvinle on 2019/2/2 1:37 PM.
-//
+
+/**
+ * HTTP响应
+*/
 
 #include "HttpResponse.h"
 
@@ -39,15 +40,12 @@ void HttpResponse::appendBuffer(char *buffer) const
     {
         sprintf(buffer, "HTTP/1.0 %d %s\r\n", mStatusCode, mStatusMsg.c_str());
     }
-
     // 头部字段
     for (auto it = mHeaders.begin(); it != mHeaders.end(); it++)
     {
         sprintf(buffer, "%s%s: %s\r\n", buffer, it->first.c_str(), it->second.c_str());
     }
-    
     sprintf(buffer, "%sContent-type: %s\r\n", buffer, mMime.type.c_str());
-    
     // keep_alive
     if (keep_alive_)
     {

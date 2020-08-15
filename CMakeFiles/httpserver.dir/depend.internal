@@ -9,7 +9,6 @@ CMakeFiles/httpserver.dir/Epoll/Epoll.cpp.o
  /home/zyl/webserver/ZYL_Webserver/Util/Util.h
  /home/zyl/webserver/ZYL_Webserver/Util/noncopyable.h
  /home/zyl/webserver/ZYL_Webserver/http/HttpData.h
- /home/zyl/webserver/ZYL_Webserver/http/HttpParse.h
  /home/zyl/webserver/ZYL_Webserver/http/HttpRequest.h
  /home/zyl/webserver/ZYL_Webserver/http/HttpResponse.h
  /home/zyl/webserver/ZYL_Webserver/socket/Socket.h
@@ -20,7 +19,6 @@ CMakeFiles/httpserver.dir/Util/Timer.cpp.o
  /home/zyl/webserver/ZYL_Webserver/Util/Timer.h
  /home/zyl/webserver/ZYL_Webserver/Util/noncopyable.h
  /home/zyl/webserver/ZYL_Webserver/http/HttpData.h
- /home/zyl/webserver/ZYL_Webserver/http/HttpParse.h
  /home/zyl/webserver/ZYL_Webserver/http/HttpRequest.h
  /home/zyl/webserver/ZYL_Webserver/http/HttpResponse.h
  /home/zyl/webserver/ZYL_Webserver/socket/Socket.h
@@ -31,16 +29,6 @@ CMakeFiles/httpserver.dir/config/Config.cpp.o
  /home/zyl/webserver/ZYL_Webserver/Util/Util.h
  /home/zyl/webserver/ZYL_Webserver/config/Config.cpp
  /home/zyl/webserver/ZYL_Webserver/config/Config.h
-CMakeFiles/httpserver.dir/http/HttpData.cpp.o
- /home/zyl/webserver/ZYL_Webserver/Util/MutexLock.h
- /home/zyl/webserver/ZYL_Webserver/Util/Timer.h
- /home/zyl/webserver/ZYL_Webserver/Util/noncopyable.h
- /home/zyl/webserver/ZYL_Webserver/http/HttpData.cpp
- /home/zyl/webserver/ZYL_Webserver/http/HttpData.h
- /home/zyl/webserver/ZYL_Webserver/http/HttpParse.h
- /home/zyl/webserver/ZYL_Webserver/http/HttpRequest.h
- /home/zyl/webserver/ZYL_Webserver/http/HttpResponse.h
- /home/zyl/webserver/ZYL_Webserver/socket/Socket.h
 CMakeFiles/httpserver.dir/http/HttpParse.cpp.o
  /home/zyl/webserver/ZYL_Webserver/Util/Util.h
  /home/zyl/webserver/ZYL_Webserver/http/HttpParse.cpp
@@ -55,7 +43,6 @@ CMakeFiles/httpserver.dir/http/HttpResponse.cpp.o
  /home/zyl/webserver/ZYL_Webserver/http/HttpResponse.h
 CMakeFiles/httpserver.dir/main.cpp.o
  /home/zyl/webserver/ZYL_Webserver/Epoll/Epoll.h
- /home/zyl/webserver/ZYL_Webserver/Util/Condition.h
  /home/zyl/webserver/ZYL_Webserver/Util/MutexLock.h
  /home/zyl/webserver/ZYL_Webserver/Util/Timer.h
  /home/zyl/webserver/ZYL_Webserver/Util/Util.h
@@ -74,14 +61,11 @@ CMakeFiles/httpserver.dir/socket/Socket.cpp.o
  /home/zyl/webserver/ZYL_Webserver/socket/Socket.cpp
  /home/zyl/webserver/ZYL_Webserver/socket/Socket.h
 CMakeFiles/httpserver.dir/threadpool/ThreadPool.cpp.o
- /home/zyl/webserver/ZYL_Webserver/Util/Condition.h
- /home/zyl/webserver/ZYL_Webserver/Util/MutexLock.h
  /home/zyl/webserver/ZYL_Webserver/Util/noncopyable.h
  /home/zyl/webserver/ZYL_Webserver/threadpool/ThreadPool.cpp
  /home/zyl/webserver/ZYL_Webserver/threadpool/ThreadPool.h
 CMakeFiles/httpserver.dir/webserver/Server.cpp.o
  /home/zyl/webserver/ZYL_Webserver/Epoll/Epoll.h
- /home/zyl/webserver/ZYL_Webserver/Util/Condition.h
  /home/zyl/webserver/ZYL_Webserver/Util/MutexLock.h
  /home/zyl/webserver/ZYL_Webserver/Util/Timer.h
  /home/zyl/webserver/ZYL_Webserver/Util/Util.h

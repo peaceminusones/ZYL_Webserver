@@ -1,7 +1,3 @@
-//
-// Created by Zhao Yingli on 2020/4/1 9:30 AM.
-//
-
 #include "webserver/Server.h"
 #include "Util/Util.h"
 #include "config/Config.h"
@@ -17,8 +13,8 @@ int main(int argc, char **argv)
     Config config;
     config.parse_arg(argc, argv);
 
-    if (config.daemon)
-        daemon_run();
+    // if (config.daemon)
+    //     daemon_run();
 
     //  输出配置信息
     {
@@ -33,13 +29,13 @@ int main(int argc, char **argv)
 
     // 构造httpServer对象
     HttpServer httpServer(config.PORT, config.thread_num);
-    
+
     // 开启线程池
     httpServer.start_threadpoll();
-    
+
     // 监听
     httpServer.eventListen();
-    
+
     // 运行
     httpServer.eventLoop();
 

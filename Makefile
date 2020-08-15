@@ -231,33 +231,6 @@ config/Config.cpp.s:
 	$(MAKE) -f CMakeFiles/httpserver.dir/build.make CMakeFiles/httpserver.dir/config/Config.cpp.s
 .PHONY : config/Config.cpp.s
 
-http/HttpData.o: http/HttpData.cpp.o
-
-.PHONY : http/HttpData.o
-
-# target to build an object file
-http/HttpData.cpp.o:
-	$(MAKE) -f CMakeFiles/httpserver.dir/build.make CMakeFiles/httpserver.dir/http/HttpData.cpp.o
-.PHONY : http/HttpData.cpp.o
-
-http/HttpData.i: http/HttpData.cpp.i
-
-.PHONY : http/HttpData.i
-
-# target to preprocess a source file
-http/HttpData.cpp.i:
-	$(MAKE) -f CMakeFiles/httpserver.dir/build.make CMakeFiles/httpserver.dir/http/HttpData.cpp.i
-.PHONY : http/HttpData.cpp.i
-
-http/HttpData.s: http/HttpData.cpp.s
-
-.PHONY : http/HttpData.s
-
-# target to generate assembly for a file
-http/HttpData.cpp.s:
-	$(MAKE) -f CMakeFiles/httpserver.dir/build.make CMakeFiles/httpserver.dir/http/HttpData.cpp.s
-.PHONY : http/HttpData.cpp.s
-
 http/HttpParse.o: http/HttpParse.cpp.o
 
 .PHONY : http/HttpParse.o
@@ -468,9 +441,6 @@ help:
 	@echo "... config/Config.o"
 	@echo "... config/Config.i"
 	@echo "... config/Config.s"
-	@echo "... http/HttpData.o"
-	@echo "... http/HttpData.i"
-	@echo "... http/HttpData.s"
 	@echo "... http/HttpParse.o"
 	@echo "... http/HttpParse.i"
 	@echo "... http/HttpParse.s"

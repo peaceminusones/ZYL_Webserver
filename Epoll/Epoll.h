@@ -1,7 +1,3 @@
-//
-// Created by marvinle on 2019/2/26 5:11 PM.
-//
-
 //#ifndef WEBSERVER_EVENT_H
 //#define WEBSERVER_EVENT_H
 #pragma once
@@ -15,17 +11,6 @@
 #include "../http/HttpData.h"
 #include "../socket/Socket.h"
 #include "../Util/Timer.h"
-
-enum EventType
-{
-    EIN = EPOLLIN,       // 写事件
-    EOUT = EPOLLOUT,     // 读事件
-    ECLOSE = EPOLLRDHUP, // 对端关闭连接或者写半部
-    EPRI = EPOLLPRI,     // 紧急数据到达
-    EERR = EPOLLERR,     // 错误事件
-    EET = EPOLLET,       // 边缘触发
-    EDEFULT = EIN | ECLOSE | EERR | EET
-};
 
 class Epoll
 {
@@ -44,12 +29,25 @@ public:
 
 public:
     // httpmap中存储的是{文件描述符：对应的httpdata}
-    static std::unordered_map<int, std::shared_ptr<HttpData>> httpDataMap;
-    static const int MAX_EVENTS; // 最大事件数
-    static const int MAX_FD;     //最大文件描述符
-    static epoll_event *events;  // epoll_event结构体
-    static TimerManager timerManager;
-    const static __uint32_t DEFAULT_EVENTS;
+    // 预先为每个可能的客户连接分配一个httpdata对象，其中包含了http请求对象，http应答对象，client对象
+    static std::unordered_map<int, std::shared_ptr<HttpData>> users;
+    static const int MAX_EVENTS;            // 最大事件数
+    static const int MAX_FD;                // 最大文件描述符
+    static epoll_event *events;             // epoll_event结构体
+    static TimerManager timerManager;       // 时间管理
+    const static __uint32_t DEFAULT_EVENTS; // 默认事件类型
+    static int m_user_count;                // 统计用户数量
 };
 
 //#endif //WEBSERVER_EVENT_H
+
+// enum EventType
+// {
+//     EIN = EPOLLIN,       // 写事件
+//     EOUT = EPOLLOUT,     // 读事件
+//     ECLOSE = EPOLLRDHUP, // 对端关闭连接或者写半部
+//     EPRI = EPOLLPRI,     // 紧急数据到达
+//     EERR = EPOLLERR,     // 错误事件
+//     EET = EPOLLET,       // 边缘触发
+//     EDEFULT = EIN | ECLOSE | EERR | EET
+// };

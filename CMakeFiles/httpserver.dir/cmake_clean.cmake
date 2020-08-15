@@ -1,8 +1,7 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/httpserver.dir/http/HttpRequest.cpp.o"
-  "CMakeFiles/httpserver.dir/http/HttpData.cpp.o"
-  "CMakeFiles/httpserver.dir/http/HttpParse.cpp.o"
   "CMakeFiles/httpserver.dir/http/HttpResponse.cpp.o"
+  "CMakeFiles/httpserver.dir/http/HttpRequest.cpp.o"
+  "CMakeFiles/httpserver.dir/http/HttpParse.cpp.o"
   "CMakeFiles/httpserver.dir/socket/Socket.cpp.o"
   "CMakeFiles/httpserver.dir/threadpool/ThreadPool.cpp.o"
   "CMakeFiles/httpserver.dir/Util/Timer.cpp.o"

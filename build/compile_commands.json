@@ -1,23 +1,18 @@
 [
 {
   "directory": "/home/zyl/webserver/ZYL_Webserver/build",
+  "command": "g++      -O3 -g -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/httpserver.dir/http/HttpResponse.cpp.o -c /home/zyl/webserver/ZYL_Webserver/http/HttpResponse.cpp",
+  "file": "/home/zyl/webserver/ZYL_Webserver/http/HttpResponse.cpp"
+},
+{
+  "directory": "/home/zyl/webserver/ZYL_Webserver/build",
   "command": "g++      -O3 -g -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/httpserver.dir/http/HttpRequest.cpp.o -c /home/zyl/webserver/ZYL_Webserver/http/HttpRequest.cpp",
   "file": "/home/zyl/webserver/ZYL_Webserver/http/HttpRequest.cpp"
 },
 {
   "directory": "/home/zyl/webserver/ZYL_Webserver/build",
-  "command": "g++      -O3 -g -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/httpserver.dir/http/HttpData.cpp.o -c /home/zyl/webserver/ZYL_Webserver/http/HttpData.cpp",
-  "file": "/home/zyl/webserver/ZYL_Webserver/http/HttpData.cpp"
-},
-{
-  "directory": "/home/zyl/webserver/ZYL_Webserver/build",
   "command": "g++      -O3 -g -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/httpserver.dir/http/HttpParse.cpp.o -c /home/zyl/webserver/ZYL_Webserver/http/HttpParse.cpp",
   "file": "/home/zyl/webserver/ZYL_Webserver/http/HttpParse.cpp"
-},
-{
-  "directory": "/home/zyl/webserver/ZYL_Webserver/build",
-  "command": "g++      -O3 -g -O3 -DNDEBUG   -std=gnu++11 -o CMakeFiles/httpserver.dir/http/HttpResponse.cpp.o -c /home/zyl/webserver/ZYL_Webserver/http/HttpResponse.cpp",
-  "file": "/home/zyl/webserver/ZYL_Webserver/http/HttpResponse.cpp"
 },
 {
   "directory": "/home/zyl/webserver/ZYL_Webserver/build",

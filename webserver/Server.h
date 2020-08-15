@@ -1,7 +1,3 @@
-//
-// Created by marvinle on 2019/2/1 2:54 PM.
-//
-
 //#ifndef WEBSERVER_SERVER_H
 //#define WEBSERVER_SERVER_H
 #pragma once
@@ -11,9 +7,9 @@
 #include "../http/HttpResponse.h"
 #include "../http/HttpData.h"
 #include "../http/HttpRequest.h"
-#include "../threadpool/ThreadPool.h"
 #include "../Epoll/Epoll.h"
 
+#include "../threadpool/ThreadPool.h"
 #include <memory>
 
 #define BUFFERSIZE 2048
@@ -52,5 +48,25 @@ private:
     ServerSocket serverSocket; // 构造函数中创建服务器监听socket，获得fd
     ThreadPool threadPool;     // 构造函数中创建线程池
 };
+
+// class HttpServer
+// {
+// public:
+//     HttpServer();
+//     ~HttpServer();
+
+//     void init(int port, int thread_num, const char *ip = nullptr);
+
+//     void thread_pool();
+//     void eventListen();
+//     void eventLoop();
+//     void timer(int connfd, struct sockaddr_in client_address);
+//     void adjust_timer(TimerNode *timer);
+//     void deal_timer();
+//     bool deal_clientdata();
+//     bool dealwithsignal();
+//     void dealwithread(int connfd);
+//     void dealwithwrite(int connfd);
+// };
 
 //#endif //WEBSERVER_SERVER_H

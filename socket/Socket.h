@@ -1,7 +1,3 @@
-//
-// Created by marvinle on 2019/2/1 3:50 PM.
-//
-
 //#ifndef WEBSERVER_SOCKET_H
 //#define WEBSERVER_SOCKET_H
 
@@ -37,7 +33,7 @@ public:
 public:
     // struct sockaddr_in: 结构体用来处理网络通信的地址
     sockaddr_in mAddr; // 服务端地址
-    int s_server;      // 服务端套接字
+    int listenfd;      // 服务端套接字
     int epoll_fd;      // 内核事件表
     int mPort;         // 端口
     const char *mIp;   // ip
@@ -47,7 +43,6 @@ public:
 // 客户端套接字
 class ClientSocket
 {
-
 public:
     ClientSocket() { fd = -1; };
 

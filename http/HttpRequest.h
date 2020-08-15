@@ -1,7 +1,3 @@
-//
-// Created by marvinle on 2019/2/26 6:36 PM.
-//
-
 //#ifndef WEBSERVER_HTTPREQUEST_H
 //#define WEBSERVER_HTTPREQUEST_H
 #pragma once
@@ -11,16 +7,11 @@
 
 class HttpRequest;
 
-std::ostream &operator<<(std::ostream &, const HttpRequest &);
-
-// HTTP头域包括通用头，请求头，响应头，实体头
-// 每个头域由一个（域名+冒号+域值）三个部分组成
-// 在HttpRequest类中，存储在header_map中{string: enum}
+// HTTP请求包括请求行、头部字段、消息体
+// 每个头部字段由一个（字段名成+冒号+字段值）三个部分组成
+// 在HttpRequest类中，将字段存储在header_map中{string: enum}
 struct HttpRequest
 {
-    // 重载 HttpRequest <<
-    friend std::ostream &operator<<(std::ostream &, const HttpRequest &);
-
     enum HTTP_VERSION
     {
         HTTP_10 = 0,
@@ -67,16 +58,16 @@ struct HttpRequest
 
     HTTP_VERSION mVersion; //HTTP版本号
     HTTP_METHOD mMethod;   // HTTP的请求方法
-    // {HTTP_HEADER的字符串形式：枚举值}
-    static std::unordered_map<std::string, HTTP_HEADER> header_map; // HTTP头部信息
 
     std::string mUri; // 请求链接
     char *mContent;   // 消息正文
 
+    // {头部字段的名称：相应的枚举值}
+    static std::unordered_map<std::string, HTTP_HEADER> header_map; // HTTP头部信息
     // 把header_map中{string:enum}，从string索引转换成枚举类的值作为键值！
     // EnumClassHash是枚举值的哈希值
-    // string 类型存储的是头域对应的域值
-    std::unordered_map<HTTP_HEADER, std::string, EnumClassHash> mHeaders;
+    // {相应的枚举值：头部字段的名称}
+    std::unordered_map<HTTP_HEADER, std::string, EnumClassHash> mHeaders; // HTTP头部字段信息
 };
 
 //#endif //WEBSERVER_HTTPREQUEST_H

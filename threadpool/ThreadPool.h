@@ -1,7 +1,3 @@
-//
-// Created by marvinle on 2019/2/25 11:26 PM.
-//
-
 //#ifndef WEBSERVER_THREADPOLL_H
 //#define WEBSERVER_THREADPOLL_H
 
@@ -12,10 +8,10 @@
 #include <functional>
 #include <thread>
 #include <memory>
+#include <mutex>
+#include <condition_variable>
 
 #include "../Util/noncopyable.h"
-#include "../Util/MutexLock.h"
-#include "../Util/Condition.h"
 
 const int MAX_THREAD_SIZE = 1024;
 const int MAX_QUEUE_SIZE = 10000; // 任务队列个数
@@ -35,44 +31,44 @@ struct ThreadTask
     std::shared_ptr<void> arg;
 };
 
+/*
+ * 主线程往工作队列中插入任务，工作线程通过竞争来取得任务并执行它
+*/
+
 // 线程池
 class ThreadPool : public noncopyable
 {
 public:
+    // 构造函数
     ThreadPool(int thread_s, int max_queue_s);
+    // 析构函数
     ~ThreadPool();
 
     void start();                 // 开启线程池
     void shutdown(bool graceful); // 关闭线程池
-    bool append(std::shared_ptr<void> arg, std::function<void(std::shared_ptr<void>)> fun);
+    // 添加一个任务(arg:参数 fun:函数指针)
+    bool append(const ThreadTask&);
 
-private:
-    static void *worker(void *args); // 线程运行函数，执行run函数
+    /*工作线程运行的函数，它不断从工作队列中取出任务并执行之*/
+    static void *worker(void *args); 
     void run();                      // 线程工作函数
     bool isFull();                   // 任务队列是否已满
 
-    // 线程同步互斥, mutex_ 在 condition_前面
-    MutexLock mutex_;     // 锁（同步
-    Condition condition_; // 信号量（条件阻塞
+private:
+    // 禁止赋值拷贝
+    ThreadPool(const ThreadPool&);
+    const ThreadPool& operator=(const ThreadPool&);
+
+    std::mutex m_mutex;             // 保护请求队列的互斥锁
+    std::condition_variable m_cond; // 是否有任务要处理的
 
     // 线程池属性
-    int thread_size;                     // 线程数
-    int max_queue_size;                  // 最大任务队列
+    int thread_size;                     // 线程池中的线程数
+    int max_queue_size;                  // 请求队列中允许的最大请求数
     int shutdown_;                       // 判断线程池是否关闭，且关闭模式是什么
-    int idle;                            // 线程池中空闲线程数
-    std::vector<std::thread> _threads;   // 线程池
-    std::list<ThreadTask> request_queue; // 任务队列
-
-    // int running_;
-    // int started;                         //判断线程池是否运行
-    // using Task = std::function<void()>;
+    // int idle;                         // 线程池中空闲线程数
+    std::vector<std::thread> m_threads;   // 线程池的数组
+    std::list<ThreadTask> m_request_queue; // 任务链表
 };
-
-// 线程类
-// class Thread
-// {
-
-// public:
-// };
 
 //#endif //WEBSERVER_THREADPOLL_H

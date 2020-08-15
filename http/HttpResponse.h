@@ -1,7 +1,3 @@
-//
-// Created by marvinle on 2019/2/2 1:02 PM.
-//
-
 //#ifndef WEBSERVER_HTTPRESPONSE_H
 //#define WEBSERVER_HTTPRESPONSE_H
 #pragma once
@@ -23,10 +19,15 @@ struct MimeType
 
 extern std::unordered_map<std::string, MimeType> Mime_map;
 
+// HTTP应答
+// 第一行是状态行，包括http版本信息、状态码、状态信息
+// 后面是HTTP应答的头部字段，与HTTP请求中的头部字段相同
+// 其中content-type 表示目标文档的MIME类型
 class HttpResponse
 {
 
 public:
+    // http状态码
     enum HttpStatusCode
     {
         Unknow,

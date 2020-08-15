@@ -1,7 +1,3 @@
-//
-// Created by marvinle on 2019/2/1 4:21 PM.
-//
-
 #include "Socket.h"
 #include "../Util/Util.h"
 #include <cstring>
@@ -17,8 +13,8 @@ ServerSocket::ServerSocket(int port, const char *ip) : mPort(port), mIp(ip), m_u
     mAddr.sin_port = htons(port);
 
     // 创建监听套接字
-    s_server = socket(AF_INET, SOCK_STREAM, 0);
-    if (s_server == -1)
+    listenfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (listenfd == -1)
     {
         std::cout << "creat socket error in file <" << __FILE__ << "> "
                   << "at " << __LINE__ << std::endl;
@@ -26,14 +22,14 @@ ServerSocket::ServerSocket(int port, const char *ip) : mPort(port), mIp(ip), m_u
     }
 
     // 设置socket属性, 让端口释放后立即就可以被再次使用
-    setReusePort(s_server);
-    setnonblocking(s_server);
+    setReusePort(listenfd);
+    setnonblocking(listenfd);
 }
 
 // 绑定ip地址、端口等信息到socket上
 void ServerSocket::bind()
 {
-    int ret = ::bind(s_server, (struct sockaddr *)&mAddr, sizeof(mAddr));
+    int ret = ::bind(listenfd, (struct sockaddr *)&mAddr, sizeof(mAddr));
     if (ret == -1)
     {
         std::cout << "bind error in file <" << __FILE__ << "> "
@@ -45,7 +41,7 @@ void ServerSocket::bind()
 // 监听
 void ServerSocket::listen()
 {
-    int ret = ::listen(s_server, 1024);
+    int ret = ::listen(listenfd, 1024);
     if (ret == -1)
     {
         std::cout << "listen error in file <" << __FILE__ << "> "
@@ -58,7 +54,7 @@ void ServerSocket::listen()
 // 接收客户端上来的连接
 int ServerSocket::accept(ClientSocket &clientSocket) const
 {
-    int clientfd = ::accept(s_server, (struct sockaddr *)&clientSocket.mAddr, &clientSocket.mLen);
+    int clientfd = ::accept(listenfd, (struct sockaddr *)&clientSocket.mAddr, &clientSocket.mLen);
 
     if (clientfd < 0)
     {
@@ -77,10 +73,10 @@ int ServerSocket::accept(ClientSocket &clientSocket) const
 // 关闭连接
 void ServerSocket::close()
 {
-    if (s_server >= 0)
+    if (listenfd >= 0)
     {
-        ::close(s_server);
-        s_server = -1;
+        ::close(listenfd);
+        listenfd = -1;
     }
 }
 

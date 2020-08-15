@@ -8,7 +8,6 @@ CMakeFiles/httpserver.dir/Epoll/Epoll.cpp.o: Util/Timer.h
 CMakeFiles/httpserver.dir/Epoll/Epoll.cpp.o: Util/Util.h
 CMakeFiles/httpserver.dir/Epoll/Epoll.cpp.o: Util/noncopyable.h
 CMakeFiles/httpserver.dir/Epoll/Epoll.cpp.o: http/HttpData.h
-CMakeFiles/httpserver.dir/Epoll/Epoll.cpp.o: http/HttpParse.h
 CMakeFiles/httpserver.dir/Epoll/Epoll.cpp.o: http/HttpRequest.h
 CMakeFiles/httpserver.dir/Epoll/Epoll.cpp.o: http/HttpResponse.h
 CMakeFiles/httpserver.dir/Epoll/Epoll.cpp.o: socket/Socket.h
@@ -19,7 +18,6 @@ CMakeFiles/httpserver.dir/Util/Timer.cpp.o: Util/Timer.cpp
 CMakeFiles/httpserver.dir/Util/Timer.cpp.o: Util/Timer.h
 CMakeFiles/httpserver.dir/Util/Timer.cpp.o: Util/noncopyable.h
 CMakeFiles/httpserver.dir/Util/Timer.cpp.o: http/HttpData.h
-CMakeFiles/httpserver.dir/Util/Timer.cpp.o: http/HttpParse.h
 CMakeFiles/httpserver.dir/Util/Timer.cpp.o: http/HttpRequest.h
 CMakeFiles/httpserver.dir/Util/Timer.cpp.o: http/HttpResponse.h
 CMakeFiles/httpserver.dir/Util/Timer.cpp.o: socket/Socket.h
@@ -30,16 +28,6 @@ CMakeFiles/httpserver.dir/Util/Util.cpp.o: Util/Util.h
 CMakeFiles/httpserver.dir/config/Config.cpp.o: Util/Util.h
 CMakeFiles/httpserver.dir/config/Config.cpp.o: config/Config.cpp
 CMakeFiles/httpserver.dir/config/Config.cpp.o: config/Config.h
-
-CMakeFiles/httpserver.dir/http/HttpData.cpp.o: Util/MutexLock.h
-CMakeFiles/httpserver.dir/http/HttpData.cpp.o: Util/Timer.h
-CMakeFiles/httpserver.dir/http/HttpData.cpp.o: Util/noncopyable.h
-CMakeFiles/httpserver.dir/http/HttpData.cpp.o: http/HttpData.cpp
-CMakeFiles/httpserver.dir/http/HttpData.cpp.o: http/HttpData.h
-CMakeFiles/httpserver.dir/http/HttpData.cpp.o: http/HttpParse.h
-CMakeFiles/httpserver.dir/http/HttpData.cpp.o: http/HttpRequest.h
-CMakeFiles/httpserver.dir/http/HttpData.cpp.o: http/HttpResponse.h
-CMakeFiles/httpserver.dir/http/HttpData.cpp.o: socket/Socket.h
 
 CMakeFiles/httpserver.dir/http/HttpParse.cpp.o: Util/Util.h
 CMakeFiles/httpserver.dir/http/HttpParse.cpp.o: http/HttpParse.cpp
@@ -54,7 +42,6 @@ CMakeFiles/httpserver.dir/http/HttpResponse.cpp.o: http/HttpResponse.cpp
 CMakeFiles/httpserver.dir/http/HttpResponse.cpp.o: http/HttpResponse.h
 
 CMakeFiles/httpserver.dir/main.cpp.o: Epoll/Epoll.h
-CMakeFiles/httpserver.dir/main.cpp.o: Util/Condition.h
 CMakeFiles/httpserver.dir/main.cpp.o: Util/MutexLock.h
 CMakeFiles/httpserver.dir/main.cpp.o: Util/Timer.h
 CMakeFiles/httpserver.dir/main.cpp.o: Util/Util.h
@@ -73,14 +60,11 @@ CMakeFiles/httpserver.dir/socket/Socket.cpp.o: Util/Util.h
 CMakeFiles/httpserver.dir/socket/Socket.cpp.o: socket/Socket.cpp
 CMakeFiles/httpserver.dir/socket/Socket.cpp.o: socket/Socket.h
 
-CMakeFiles/httpserver.dir/threadpool/ThreadPool.cpp.o: Util/Condition.h
-CMakeFiles/httpserver.dir/threadpool/ThreadPool.cpp.o: Util/MutexLock.h
 CMakeFiles/httpserver.dir/threadpool/ThreadPool.cpp.o: Util/noncopyable.h
 CMakeFiles/httpserver.dir/threadpool/ThreadPool.cpp.o: threadpool/ThreadPool.cpp
 CMakeFiles/httpserver.dir/threadpool/ThreadPool.cpp.o: threadpool/ThreadPool.h
 
 CMakeFiles/httpserver.dir/webserver/Server.cpp.o: Epoll/Epoll.h
-CMakeFiles/httpserver.dir/webserver/Server.cpp.o: Util/Condition.h
 CMakeFiles/httpserver.dir/webserver/Server.cpp.o: Util/MutexLock.h
 CMakeFiles/httpserver.dir/webserver/Server.cpp.o: Util/Timer.h
 CMakeFiles/httpserver.dir/webserver/Server.cpp.o: Util/Util.h

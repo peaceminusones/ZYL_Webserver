@@ -1,6 +1,6 @@
-//
-// Created by marvinle on 2019/2/1 10:59 AM.
-//
+/**
+ * 服务器端解析http请求
+*/
 
 #include "HttpRequest.h"
 #include "HttpParse.h"
@@ -9,16 +9,6 @@
 #include <string.h>
 #include <iostream>
 #include <algorithm>
-
-std::unordered_map<std::string, HttpRequest::HTTP_HEADER> HttpRequest::header_map = {
-    {"HOST", HttpRequest::Host},
-    {"USER-AGENT", HttpRequest::User_Agent},
-    {"CONNECTION", HttpRequest::Connection},
-    {"ACCEPT-ENCODING", HttpRequest::Accept_Encoding},
-    {"ACCEPT-LANGUAGE", HttpRequest::Accept_Language},
-    {"ACCEPT", HttpRequest::Accept},
-    {"CACHE-CONTROL", HttpRequest::Cache_Control},
-    {"UPGRADE-INSECURE-REQUESTS", HttpRequest::Upgrade_Insecure_Requests}};
 
 // 从状态机，用于解析出一行内容
 // 解析一行内容, buffer[checked_index, read_index)
@@ -208,7 +198,7 @@ HttpRequestParser::parse_headers(char *line, PARSE_STATE &parse_state, HttpReque
     return NO_REQUEST;
 }
 
-// 解析body
+// 解析body 暂时没有。。。
 HttpRequestParser::HTTP_CODE
 HttpRequestParser::parse_body(char *body, HttpRequest &request)
 {

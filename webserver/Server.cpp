@@ -1,7 +1,3 @@
-//
-// Created by marvinle on 2019/2/1 7:34 PM.
-//
-
 #include "Server.h"
 
 #include "../Util/Util.h"
@@ -19,44 +15,44 @@
 #include <cstring>
 
 char NOT_FOUND_PAGE[] = "<html>\n"
-"<head><title>404 Not Found</title></head>\n"
-"<body bgcolor=\"white\">\n"
-"<center><h1>404 Not Found</h1></center>\n"
-"<hr><center>ZYL WebServer(Linux)</center>\n"
-"</body>\n"
-"</html>";
+                        "<head><title>404 Not Found</title></head>\n"
+                        "<body bgcolor=\"white\">\n"
+                        "<center><h1>404 Not Found</h1></center>\n"
+                        "<hr><center>ZYL WebServer(Linux)</center>\n"
+                        "</body>\n"
+                        "</html>";
 
 char FORBIDDEN_PAGE[] = "<html>\n"
-"<head><title>403 Forbidden</title></head>\n"
-"<body bgcolor=\"white\">\n"
-"<center><h1>403 Forbidden</h1></center>\n"
-"<hr><center>ZYL WebServer(Linux)</center>\n"
-"</body>\n"
-"</html>";
+                        "<head><title>403 Forbidden</title></head>\n"
+                        "<body bgcolor=\"white\">\n"
+                        "<center><h1>403 Forbidden</h1></center>\n"
+                        "<hr><center>ZYL WebServer(Linux)</center>\n"
+                        "</body>\n"
+                        "</html>";
 
 char INDEX_PAGE[] = "<!DOCTYPE html>\n"
-"<html>\n"
-"<head>\n"
-"    <title>Welcome to ZYL WebServer!</title>\n"
-"    <style>\n"
-"        body {\n"
-"            width: 35em;\n"
-"            margin: 0 auto;\n"
-"            font-family: Tahoma, Verdana, Arial, sans-serif;\n"
-"        }\n"
-"    </style>\n"
-"</head>\n"
-"<body>\n"
-"<h1>Welcome to ZYL WebServer!</h1>\n"
-"<p>If you see this page, the lc webserver is successfully installed and\n"
-"    working. </p>\n"
-"\n"
-"<p>For online documentation and support please refer to\n"
-"    <a href=\"https://github.com/MarvinLe/WebServer\">LC WebServer</a>.<br/>\n"
-"\n"
-"<p><em>Thank you for using LC WebServer.</em></p>\n"
-"</body>\n"
-"</html>";
+                    "<html>\n"
+                    "<head>\n"
+                    "    <title>Welcome to ZYL WebServer!</title>\n"
+                    "    <style>\n"
+                    "        body {\n"
+                    "            width: 35em;\n"
+                    "            margin: 0 auto;\n"
+                    "            font-family: Tahoma, Verdana, Arial, sans-serif;\n"
+                    "        }\n"
+                    "    </style>\n"
+                    "</head>\n"
+                    "<body>\n"
+                    "<h1>Welcome to ZYL WebServer!</h1>\n"
+                    "<p>If you see this page, the lc webserver is successfully installed and\n"
+                    "    working. </p>\n"
+                    "\n"
+                    "<p>For online documentation and support please refer to\n"
+                    "    <a href=\"https://github.com/MarvinLe/WebServer\">LC WebServer</a>.<br/>\n"
+                    "\n"
+                    "<p><em>Thank you for using LC WebServer.</em></p>\n"
+                    "</body>\n"
+                    "</html>";
 
 extern std::string basePath;
 
@@ -77,10 +73,10 @@ void HttpServer::eventListen()
     httpData->epoll_fd = epoll_fd;
     serverSocket.epoll_fd = epoll_fd;
 
+    // 监听的事件类型（输入、ET）
     __uint32_t event = (EPOLLIN | EPOLLET);
-    // 把服务器socket文件描述符注册到内核时间表中
-    // 这里serverSocket.s_server是socket的listen_fd
-    Epoll::addfd(epoll_fd, serverSocket.s_server, event, httpData);
+    // 把服务器监听事件注册到内核时间表中
+    Epoll::addfd(epoll_fd, serverSocket.listenfd, event, httpData);
 }
 
 // 运行
@@ -94,8 +90,10 @@ void HttpServer::eventLoop()
         // 将事件传递给 线程池
         for (auto &req : events)
         {
-            // 
-            threadPool.append(req, std::bind(&HttpServer::do_request, this, std::placeholders::_1));
+            ThreadTask threadtask;
+            threadtask.arg = req;
+            threadtask.process = std::bind(&HttpServer::do_request, this, std::placeholders::_1);
+            threadPool.append(threadtask);
         }
         // 处理定时器超时事件
         Epoll::timerManager.handle_expired_event();
@@ -352,4 +350,4 @@ err:
     sprintf(header, "%s%s", header, internal_error);
     ::send(httpData->clientSocket_->fd, header, strlen(header), 0);
     return;
-}    
+}
