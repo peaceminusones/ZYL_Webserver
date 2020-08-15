@@ -1,7 +1,3 @@
-//
-// Created by marvinle on 2019/2/27 10:19 AM.
-//
-
 #include "HttpData.h"
 
 void HttpData::closeTimer()

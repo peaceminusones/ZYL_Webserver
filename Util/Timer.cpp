@@ -1,7 +1,3 @@
-//
-// Created by marvinle on 2019/2/26 3:53 PM.
-//
-
 #include <sys/time.h>
 #include <unistd.h>
 #include "../Epoll/Epoll.h"

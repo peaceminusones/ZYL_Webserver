@@ -1,7 +1,3 @@
-//
-// Created by marvinle on 2019/2/25 8:49 PM.
-//
-
 //#ifndef WEBSERVER_CONDITION_H
 //#define WEBSERVER_CONDITION_H
 #pragma once
