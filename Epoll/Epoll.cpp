@@ -11,7 +11,7 @@ const int Epoll::MAX_FD = 65535;     // 最大文件描述符
 int Epoll::m_user_count = 0;         // 初始化用户数量
 epoll_event *Epoll::events;          // 统一事件源
 TimerManager Epoll::timerManager;
-std::unordered_map<int, std::shared_ptr<HttpData>> Epoll::users(MAX_FD);
+std::map<int, std::shared_ptr<HttpData>> Epoll::httpDataMap(MAX_FD);
 
 // 默认时间类型：可读 | ET模 | 保证一个socket连接在任一时刻只被一个线程处理
 const __uint32_t Epoll::DEFAULT_EVENTS = (EPOLLIN | EPOLLET | EPOLLONESHOT);
@@ -41,14 +41,14 @@ int Epoll::addfd(int epoll_fd, int fd, __uint32_t events, std::shared_ptr<HttpDa
     event.data.fd = fd;
 
     // 增加httpDataMap
-    users[fd] = httpData;
+    httpDataMap[fd] = httpData;
 
     int ret = ::epoll_ctl(epoll_fd, EPOLL_CTL_ADD, fd, &event);
     if (ret < 0)
     {
         std::cout << "epoll add error" << endl;
         // 释放httpData
-        users[fd].reset();
+        httpDataMap[fd].reset();
         return -1;
     }
     setnonblocking(fd);
@@ -63,13 +63,13 @@ int Epoll::modfd(int epoll_fd, int fd, __uint32_t events, std::shared_ptr<HttpDa
     event.data.fd = fd;
 
     // 每次更改的时候也更新 httpDataMap
-    users[fd] = httpData;
+    httpDataMap[fd] = httpData;
     int ret = ::epoll_ctl(epoll_fd, EPOLL_CTL_MOD, fd, &event);
     if (ret < 0)
     {
         std::cout << "epoll mod error" << endl;
         // 释放httpData
-        users[fd].reset();
+        httpDataMap[fd].reset();
         return -1;
     }
     return 0;
@@ -89,10 +89,10 @@ int Epoll::delfd(int epoll_fd, int fd, __uint32_t events)
         return -1;
     }
 
-    auto it = users.find(fd);
-    if (it != users.end())
+    auto it = httpDataMap.find(fd);
+    if (it != httpDataMap.end())
     {
-        users.erase(it);
+        httpDataMap.erase(it);
     }
 
     return 0;
@@ -172,8 +172,8 @@ std::vector<std::shared_ptr<HttpData>> Epoll::poll(const ServerSocket &serverSoc
         else if ((events[i].events & EPOLLERR) || (events[i].events & EPOLLRDHUP) || (events[i].events & EPOLLHUP))
         {
             // 出错的描述符，移除定时器， 关闭文件描述符
-            auto it = users.find(fd);
-            if (it != users.end())
+            auto it = httpDataMap.find(fd);
+            if (it != httpDataMap.end())
             {
                 // 将HttpData节点和TimerNode的关联分开，这样HttpData会立即析构，在析构函数内关闭文件描述符等资源
                 it->second->closeTimer();
@@ -183,8 +183,8 @@ std::vector<std::shared_ptr<HttpData>> Epoll::poll(const ServerSocket &serverSoc
         }
         else if ((events[i].events & EPOLLIN) || (events[i].events & EPOLLPRI))
         {
-            auto it = users.find(fd);
-            if (it != users.end())
+            auto it = httpDataMap.find(fd);
+            if (it != httpDataMap.end())
             {
                 httpDatas.push_back(it->second);
                 // 清除定时器 HttpData.closeTimer()

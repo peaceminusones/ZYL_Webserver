@@ -87,7 +87,7 @@ void HttpServer::eventLoop()
         // 从就绪队列中取出就绪的事件
         // 如果没有，调用一直阻塞，直到有文件描述符进入就绪状态
         std::vector<std::shared_ptr<HttpData>> events = Epoll::poll(serverSocket, 1024, -1);
-        // 将事件传递给 线程池
+        // 将事件传递给线程池
         for (auto &req : events)
         {
             ThreadTask threadtask;
@@ -184,7 +184,7 @@ void HttpServer::do_request(std::shared_ptr<void> arg)
         }
         else // 其他情况表示发生错误
         {
-            // todo Bad Request 应该关闭定时器,(其实定时器已经关闭,在每接到一个新的数据时)
+            // todo Bad Request 应该关闭定时器(其实定时器已经关闭,在每接到一个新的数据时)
             std::cout << "Bad Request" << std::endl;
         }
     }
@@ -201,7 +201,7 @@ void HttpServer::header(std::shared_ptr<HttpData> httpData)
     {
         httpData->response_->setVersion(HttpRequest::HTTP_10);
     }
-    httpData->response_->addHeader("Server", "LC WebServer");
+    httpData->response_->addHeader("Server", "ZYL WebServer");
 }
 
 // 获取Mime 同时设置path到response
@@ -214,7 +214,7 @@ void HttpServer::getMime(std::shared_ptr<HttpData> httpData)
     // 从后向前查找，返回在字符串中的位置
     if (filepath.rfind('?') != std::string::npos)
     {
-        // 删除？后面的字符
+        // 删除后面的字符
         filepath.erase(filepath.rfind('?'));
     }
 

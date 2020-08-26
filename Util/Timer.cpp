@@ -19,7 +19,7 @@ TimerNode::~TimerNode()
 {
     // FIXME 析构关闭资源的时候，要将httpDataMap中的引用,否则资源无法关闭，后期可改进为httpDataMap存储 weak_ptr<HttpData>
     // std::cout << "TimerNode析构" << std::endl;
-    // 析构时如果是被deleted 则httpData为NULL, 不用处理，而如果是超时，则需要删除Epoll中的httpDataMap中
+    // 析构时如果是被deleted 则httpData为NULL, 不用处理，而如果是超时，则需要删除Epoll中的httpDataMap中的fd
     if (httpData_)
     {
         auto it = Epoll::users.find(httpData_->clientSocket_->fd);

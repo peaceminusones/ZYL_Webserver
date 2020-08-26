@@ -30,7 +30,8 @@ public:
 public:
     // httpmap中存储的是{文件描述符：对应的httpdata}
     // 预先为每个可能的客户连接分配一个httpdata对象，其中包含了http请求对象，http应答对象，client对象
-    static std::unordered_map<int, std::shared_ptr<HttpData>> users;
+    // 内核事件表
+    static std::map<int, std::shared_ptr<HttpData>> httpDataMap;
     static const int MAX_EVENTS;            // 最大事件数
     static const int MAX_FD;                // 最大文件描述符
     static epoll_event *events;             // epoll_event结构体
